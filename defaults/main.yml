@@ -10,6 +10,7 @@ keepalived_scripts:
   - master_quagga.sh
   - primary-backup.sh
 keepalived_scripts_home: /opt/scripts
+net_config_dir: /etc/network/interfaces.d
 quagga_configs:
   - daemons
   - debian.conf
