@@ -12,6 +12,8 @@ Role Variables
 --------------
 
 ````
+---
+# defaults file for ansible-quagga
 config_glusterfs: false
 config_interfaces: false
 config_keepalived: false
@@ -22,6 +24,46 @@ keepalived_scripts:
   - master_quagga.sh
   - primary-backup.sh
 keepalived_scripts_home: /opt/scripts
+net_config_dir: /etc/network/interfaces.d
+#quagga_bgp_router_configs:
+#  - name: r1
+#    local_as: 123
+#    router_id: 1.1.1.1
+#    neighbors:
+#      - neighbor: 192.168.12.12
+#        remote_as: 123
+#      - neighbor: 192.168.31.13
+#        remote_as: 123
+#      - neighbor: 192.168.31.14
+#        remote_as: 141
+#  - name: r2
+#    local_as: 123
+#    router_id: 2.2.2.2
+#    neighbors:
+#      - neighbor: 192.168.12.11
+#        remote_as: 123
+#      - neighbor: 192.168.23.13
+#        remote_as: 123
+#  - name: r3
+#    local_as: 123
+#    router_id: 3.3.3.3
+#    neighbors:
+#      - neighbor: 192.168.23.12
+#        remote_as: 123
+#      - neighbor: 192.168.31.11
+#        remote_as: 123
+#  - name: r4
+#    local_as: 141
+#    router_id: 4.4.4.4
+#    neighbors:
+#      - neighbor: 192.168.31.11
+#        remote_as: 123
+quagga_bgp_redistribute:
+  - connected
+  - kernel
+#  - static
+#  - isis
+#  - rip
 quagga_configs:
   - daemons
   - debian.conf

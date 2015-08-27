@@ -13,8 +13,26 @@ hostname {{ ansible_hostname }}
 {% endif %}
 password {{ quagga_password }}
 enable password {{ quagga_enable_password }}
+!
 log file /var/log/quagga/bgpd.log
 log stdout
 log syslog
 log monitor
+!
 service password-encryption
+!
+{% if quagga_bgp_router_configs is defined %}
+router bgp {{ item.local_as }}
+ bgp router-id {{ item.router_id }}
+ bgp log-neighbor-changes
+{% if quagga_bgp_redistribute is defined %}
+{%   for item in quagga_bgp_redistribute %}
+ redistribute {{ item }}
+{%   endfor %}
+{% endif %}
+{%   for nbr in item.neighbors %}
+ neighbor {{ nbr.neighbor }} remote-as {{ nbr.remote_as }}
+ neighbor {{ nbr.neighbor }} next-hop-self
+ neighbor {{ nbr.neighbor }} soft-reconfiguration inbound
+{%   endfor %}
+{% endif %}

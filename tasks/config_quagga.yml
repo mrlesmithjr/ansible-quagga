@@ -21,7 +21,13 @@
 - name: config_quagga | configuring bgp
   template: src=etc/quagga/bgpd.conf.j2 dest={{ quagga_root_dir }}/bgpd.conf owner=root group=root mode=0644
   notify: restart quagga
-  when: ((quagga_enable_bgpd is defined and quagga_enable_bgpd) and (config_glusterfs is defined and not config_glusterfs)) or ((quagga_enable_bgpd is defined and quagga_enable_bgpd) and config_glusterfs is not defined)
+  when: ((quagga_enable_bgpd is defined and quagga_enable_bgpd) and (config_glusterfs is defined and not config_glusterfs)) or ((quagga_enable_bgpd is defined and quagga_enable_bgpd) and config_glusterfs is not defined) and quagga_bgp_router_configs is not defined
+
+- name: config_quagga | configuring bgp
+  template: src=etc/quagga/bgpd.conf.j2 dest={{ quagga_root_dir }}/bgpd.conf owner=root group=root mode=0644
+  notify: restart quagga
+  with_items: quagga_bgp_router_configs
+  when: (quagga_bgp_router_configs is defined and item.name == inventory.hostname ) and ((quagga_enable_bgpd is defined and quagga_enable_bgpd) and (config_glusterfs is defined and not config_glusterfs)) or ((quagga_enable_bgpd is defined and quagga_enable_bgpd) and config_glusterfs is not defined)
 
 - name: config_quagga | setting permissions on files within /etc/quagga
   file: path=/etc/quagga/ owner=quagga group=quagga mode=0644 state=directory recurse=yes
