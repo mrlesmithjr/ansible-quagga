@@ -25,11 +25,11 @@ service password-encryption
 router bgp {{ item.local_as }}
  bgp router-id {{ item.router_id }}
  bgp log-neighbor-changes
-{% if quagga_bgp_redistribute is defined %}
-{%   for item in quagga_bgp_redistribute %}
+{%   if quagga_bgp_redistribute is defined %}
+{%     for item in quagga_bgp_redistribute %}
  redistribute {{ item }}
-{%   endfor %}
-{% endif %}
+{%     endfor %}
+{%   endif %}
 {%   for nbr in item.neighbors %}
  neighbor {{ nbr.neighbor }} remote-as {{ nbr.remote_as }}
  neighbor {{ nbr.neighbor }} next-hop-self
