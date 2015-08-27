@@ -1,0 +1,20 @@
+# {{ ansible_managed }}
+! -*- bgp -*-
+!
+! BGPd sample configuratin file
+!
+! $Id: bgpd.conf.sample,v 1.1 2002/12/13 20:15:29 paul Exp $
+!
+{% if quagga_hostname is defined %}
+hostname {{ quagga_hostname }}
+{% endif %}
+{% if quagga_hostname is not defined %}
+hostname {{ ansible_hostname }}
+{% endif %}
+password {{ quagga_password }}
+enable password {{ quagga_enable_password }}
+log file /var/log/quagga/bgpd.log
+log stdout
+log syslog
+log monitor
+service password-encryption
