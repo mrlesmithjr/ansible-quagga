@@ -19,7 +19,7 @@ quagga_configs:
 quagga_enable_bgpd: false
 quagga_enable_ospfd: false
 quagga_enable_password:  #define here or in group_vars/group
-quagga_interfaces_lo:
+#quagga_interfaces_lo:
 #  - int: lo
 #    method: loopback
 #    ip_address: 192.168.70.240/32
