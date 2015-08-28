@@ -30,7 +30,7 @@ router bgp {{ item.local_as }}
  redistribute {{ item }}
 {%     endfor %}
 {%   endif %}
-{%   if item.redistribute is defined and quagga_bgp_redistribute is not defined %}
+{%   if item.redistribute is defined %}
 {%     for redist in item.redistribute %}
  redistribute {{ redist }}
 {%     endfor %}
