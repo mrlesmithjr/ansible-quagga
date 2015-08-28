@@ -20,8 +20,21 @@ net_config_dir: /etc/network/interfaces.d
 #        remote_as: 123
 #      - neighbor: 192.168.31.13
 #        remote_as: 123
-#      - neighbor: 192.168.31.14
+#      - neighbor: 192.168.14.14
 #        remote_as: 141
+#      - neighbor: 192.168.15.15
+#        remote_as: 151
+#    network_advertisements:  #networks to advertise and/or define redistribute options
+#      - 1.1.1.0/24
+#      - 192.168.12.0/24
+#      - 192.168.14.0/24
+#      - 192.168.15.0/24
+#    redistribute:
+#      - connected
+#      - isis
+#      - kernel
+#      - rip
+#      - static
 #  - name: r2
 #    local_as: 123
 #    router_id: 2.2.2.2
@@ -30,23 +43,19 @@ net_config_dir: /etc/network/interfaces.d
 #        remote_as: 123
 #      - neighbor: 192.168.23.13
 #        remote_as: 123
-#  - name: r3
-#    local_as: 123
-#    router_id: 3.3.3.3
-#    neighbors:
-#      - neighbor: 192.168.23.12
-#        remote_as: 123
-#      - neighbor: 192.168.31.11
-#        remote_as: 123
-#  - name: r4
-#    local_as: 141
-#    router_id: 4.4.4.4
-#    neighbors:
-#      - neighbor: 192.168.31.11
-#        remote_as: 123
-quagga_bgp_redistribute:
-  - connected
-  - kernel
+#    network_advertisements:  #networks to advertise and/or define redistribute options
+#      - 2.2.2.0/24
+#      - 192.168.12.0/24
+#      - 192.168.23.0/24
+#    redistribute:
+#      - connected
+#      - isis
+#      - kernel
+#      - rip
+#      - static
+#quagga_bgp_redistribute:
+#  - connected
+#  - kernel
 #  - static
 #  - isis
 #  - rip
@@ -57,7 +66,7 @@ quagga_configs:
   - zebra.conf
 quagga_enable_bgpd: false
 quagga_enable_ospfd: false
-quagga_enable_password:  #define here or in group_vars/group
+quagga_enable_password: quagga #define here or in group_vars/group
 #quagga_interfaces_lo:
 #  - int: lo
 #    method: loopback
@@ -76,7 +85,7 @@ quagga_ospf_redistribute:
 #  - isis
 #  - rip
 quagga_ospf_routerid: '{{ ansible_default_ipv4.address }}'  #defines the router id IP address for OSPF...define here or in group_vars/group
-quagga_password:  #define in group_vars/all/accounts
+quagga_password: quagga #define in group_vars/all/accounts
 quagga_root_dir: /etc/quagga
 sysctl_network_settings:
   - name: net.ipv4.ip_forward

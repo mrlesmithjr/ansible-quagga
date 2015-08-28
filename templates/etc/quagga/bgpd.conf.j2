@@ -30,6 +30,16 @@ router bgp {{ item.local_as }}
  redistribute {{ item }}
 {%     endfor %}
 {%   endif %}
+{%   if item.redistribute is defined %}
+{%     for redist in item.redistribute %}
+ redistribute {{ redist }}
+{%     endfor %}
+{%   endif %}
+{%   if item.network_advertisements is defined %}
+{%     for adv in item.network_advertisements %}
+ network {{ adv }}
+{%     endfor %}
+{%   endif %}
 {%   for nbr in item.neighbors %}
  neighbor {{ nbr.neighbor }} remote-as {{ nbr.remote_as }}
  neighbor {{ nbr.neighbor }} next-hop-self
