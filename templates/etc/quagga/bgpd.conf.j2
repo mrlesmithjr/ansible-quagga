@@ -25,12 +25,12 @@ service password-encryption
 router bgp {{ item.local_as }}
  bgp router-id {{ item.router_id }}
  bgp log-neighbor-changes
-{%   if quagga_bgp_redistribute is defined %}
+{%   if quagga_bgp_redistribute is defined and item.redistribute is not defined %}
 {%     for item in quagga_bgp_redistribute %}
  redistribute {{ item }}
 {%     endfor %}
 {%   endif %}
-{%   if item.redistribute is defined %}
+{%   if item.redistribute is defined and quagga_bgp_redistribute is not defined %}
 {%     for redist in item.redistribute %}
  redistribute {{ redist }}
 {%     endfor %}
