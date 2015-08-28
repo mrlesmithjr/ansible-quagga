@@ -53,9 +53,9 @@ net_config_dir: /etc/network/interfaces.d
 #      - kernel
 #      - rip
 #      - static
-#quagga_bgp_redistribute:
-#  - connected
-#  - kernel
+quagga_bgp_redistribute:
+  - connected
+  - kernel
 #  - static
 #  - isis
 #  - rip
