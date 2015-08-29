@@ -39,30 +39,32 @@ interface {{ item.vlan }}
 {%   endfor %}
 {% endif %}
 !
+{% if quagga_config_ospfd is defined and quagga_config_ospfd %}
 router ospf
-{% if quagga_ospf_routerid is defined %}
+{%   if quagga_ospf_routerid is defined %}
  ospf router-id {{ quagga_ospf_routerid }}
-{% endif %}
+{%   endif %}
   log-adjacency-changes
-{% if quagga_ospf_redistribute is defined %}
-{%   for item in quagga_ospf_redistribute %}
+{%   if quagga_ospf_redistribute is defined %}
+{%     for item in quagga_ospf_redistribute %}
  redistribute {{ item }}
-{%   endfor %}
+{%     endfor %}
 {% endif %}
-{% if quagga_passive_int is defined %}
-{%   for item in quagga_passive_int %}
+{%   if quagga_passive_int is defined %}
+{%     for item in quagga_passive_int %}
  passive-interface {{ item.int }}
-{%   endfor %}
-{% endif %}
-{% if quagga_no_passive_int is defined %}
-{%   for item in quagga_no_passive_int %}
+{%     endfor %}
+{%   endif %}
+{%   if quagga_no_passive_int is defined %}
+{%     for item in quagga_no_passive_int %}
  no passive-interface {{ item.int }}
-{%   endfor %}
+{%     endfor %}
 {% endif %}
-{% if quagga_ospf_area_config is defined %}
-{%   for item in quagga_ospf_area_config %}
+{%   if quagga_ospf_area_config is defined %}
+{%     for item in quagga_ospf_area_config %}
  network {{ item.network }} area {{ item.area }}
-{%   endfor %}
+{%     endfor %}
+{%   endif %}
 {% endif %}
 !
 line vty
