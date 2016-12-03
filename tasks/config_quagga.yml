@@ -1,19 +1,19 @@
 ---
-- name: config_quagga | ensuring vlan package is installed
+- name: quagga_config | ensuring vlan package is installed
   apt:
     name: "vlan"
     state: "present"
 
-- name: config_quagga | configuring network settings
+- name: quagga_config | configuring network settings
   sysctl:
     name: "{{ item.name }}"
     value: "{{ item.value }}"
     state: "present"
     reload: yes
-  with_items: '{{ sysctl_network_settings }}'
-  when: sysctl_network_settings is defined
+  with_items: '{{ quagga_sysctl_network_settings }}'
+  when: quagga_sysctl_network_settings is defined
 
-- name: config_quagga | configuring quagga
+- name: quagga_config | configuring quagga
   template:
     src: "etc/quagga/{{ item }}.j2"
     dest: "{{ quagga_root_dir }}/{{ item }}"
@@ -23,7 +23,7 @@
   notify: "restart quagga"
   with_items: '{{ quagga_configs }}'
 
-- name: config_quagga | configuring ospf
+- name: quagga_config | configuring ospf
   template:
     src: "etc/quagga/ospfd.conf.j2"
     dest: "{{ quagga_root_dir }}/ospfd.conf"
@@ -35,7 +35,7 @@
         quagga_enable_ospfd is defined and
         quagga_enable_ospfd
 
-- name: config_quagga | configuring bgp
+- name: quagga_config | configuring bgp
   template:
     src: "etc/quagga/bgpd.conf.j2"
     dest: "{{ quagga_root_dir }}/bgpd.conf"
@@ -47,7 +47,7 @@
         quagga_bgp_router_configs is not defined and
         (quagga_enable_bgpd is defined and quagga_enable_bgpd)
 
-- name: config_quagga | configuring bgp
+- name: quagga_config | configuring bgp
   template:
     src: "etc/quagga/bgpd.conf.j2"
     dest: "{{ quagga_root_dir }}/bgpd.conf"
@@ -62,7 +62,7 @@
         (quagga_enable_bgpd is defined and
         quagga_enable_bgpd)
 
-- name: config_quagga | setting permissions on files within '{{ quagga_root_dir }}'
+- name: quagga_config | setting permissions on files within '{{ quagga_root_dir }}'
   file:
     path: "{{ quagga_root_dir }}"
     owner: "quagga"
@@ -71,7 +71,7 @@
     state: "directory"
     recurse: yes
 
-- name: config_quagga | setting permissions on folder '{{ quagga_root_dir }}'
+- name: quagga_config | setting permissions on folder '{{ quagga_root_dir }}'
   file:
     path: "{{ quagga_root_dir }}"
     owner: "quagga"

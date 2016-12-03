@@ -1,15 +1,32 @@
 ---
 # defaults file for ansible-quagga
-config_interfaces: false
-config_keepalived: false
-config_quagga: false
-keepalived_scripts:
+quagga_bgp_redistribute:
+  - 'connected'
+  - 'kernel'
+#  - 'static'
+#  - 'isis'
+#  - 'rip'
+quagga_config: false
+#defines if quagga bgpd should be configured based on quagga_bgp_router_configs
+#makes it easy to disable auto routing in order to define your routes manually
+quagga_config_bgpd: false
+quagga_config_interfaces: false
+quagga_config_keepalived: false
+#defines if quagga ospfd should be configured based on quagga_ospf_ vars...
+#makes it easy to disable auto routing in order to define your routes manually
+quagga_config_ospfd: false
+quagga_configs:
+  - 'daemons'
+  - 'debian.conf'
+  - 'vtysh.conf'
+  - 'zebra.conf'
+quagga_keepalived_scripts:
   - 'backup_quagga.sh'
   - 'fault_quagga.sh'
   - 'master_quagga.sh'
   - 'primary-backup.sh'
-keepalived_scripts_home: '/opt/scripts'
-net_config_dir: '/etc/network/interfaces.d'
+quagga_keepalived_scripts_home: '/opt/scripts'
+quagga_net_config_dir: '/etc/network/interfaces.d'
 #quagga_bgp_router_configs:
 #  - name: 'r1'
 #    local_as: '123'
@@ -52,19 +69,6 @@ net_config_dir: '/etc/network/interfaces.d'
 #      - 'kernel'
 #      - 'rip'
 #      - 'static'
-quagga_bgp_redistribute:
-  - 'connected'
-  - 'kernel'
-#  - 'static'
-#  - 'isis'
-#  - 'rip'
-quagga_config_bgpd: false #defines if quagga bgpd should be configured based on quagga_bgp_router_configs...makes it easy to disable auto routing in order to define your routes manually
-quagga_config_ospfd: false  #defines if quagga ospfd should be configured based on quagga_ospf_ vars...makes it easy to disable auto routing in order to define your routes manually
-quagga_configs:
-  - 'daemons'
-  - 'debian.conf'
-  - 'vtysh.conf'
-  - 'zebra.conf'
 quagga_enable_bgpd: false
 quagga_enable_ospfd: false
 quagga_enable_password: 'quagga' #define here or in group_vars/group
@@ -88,7 +92,7 @@ quagga_ospf_redistribute:
 quagga_ospf_routerid: '{{ ansible_default_ipv4.address }}'  #defines the router id IP address for OSPF...define here or in group_vars/group
 quagga_password: 'quagga' #define in group_vars/all/accounts
 quagga_root_dir: '/etc/quagga'
-sysctl_network_settings:
+quagga_sysctl_network_settings:
   - name: 'net.ipv4.ip_forward'
     value: '1'
   - name: 'net.ipv4.conf.all.forwarding'
