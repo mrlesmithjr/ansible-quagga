@@ -1,6 +1,5 @@
 ---
 # defaults file for ansible-quagga
-config_glusterfs: false
 config_interfaces: false
 config_keepalived: false
 config_quagga: false

@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Installs Quagga Routing http://www.nongnu.org/quagga/ (Configurable...GlusterFS and KeepAliveD Ready)
+Installs Quagga Routing http://www.nongnu.org/quagga/
 
 Requirements
 ------------
@@ -14,7 +14,6 @@ Role Variables
 ````
 ---
 # defaults file for ansible-quagga
-config_glusterfs: false
 config_interfaces: false
 config_keepalived: false
 config_quagga: false
