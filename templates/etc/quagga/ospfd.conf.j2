@@ -1,4 +1,3 @@
-# {{ ansible_managed }}
 !
 ! Zebra configuration saved from vty
 !   2014/09/28 16:51:40
@@ -19,25 +18,6 @@ service password-encryption
 !
 debug ospf event
 debug ospf packet all
-!
-{% if quagga_interfaces_lo is defined %}
-{%   for item in quagga_interfaces_lo %}
-interface {{ item.int }}
-{%   endfor %}
-{% endif %}
-!
-{% if quagga_interfaces_config is defined %}
-{%   for item in quagga_interfaces_config %}
-interface {{ item.int }}
-!
-{%   endfor %}
-{% endif %}
-{% if vlan_config is defined %}
-{%   for item in vlan_config %}
-interface {{ item.vlan }}
-!
-{%   endfor %}
-{% endif %}
 !
 {% if quagga_config_ospfd is defined and quagga_config_ospfd %}
 router ospf

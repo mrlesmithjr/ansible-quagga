@@ -1,4 +1,3 @@
-# {{ ansible_managed }}
 ! -*- bgp -*-
 !
 ! BGPd sample configuratin file
@@ -23,28 +22,34 @@ service password-encryption
 !
 {% if quagga_config_bgpd is defined and quagga_config_bgpd %}
 {%   if quagga_bgp_router_configs is defined %}
+{%     if item.prefix_lists is defined %}
+{%       for pl in item.prefix_lists %}
+ip prefix-list {{ pl.name }} seq {{ pl.sequence }} {{ pl.action }} {{ pl.network }}
+{%       endfor %}
+{%     endif %}
 router bgp {{ item.local_as }}
  bgp router-id {{ item.router_id }}
  bgp log-neighbor-changes
-{%     if quagga_bgp_redistribute is defined and item.redistribute is not defined %}
-{%       for item in quagga_bgp_redistribute %}
- redistribute {{ item }}
-{%       endfor %}
-{%     endif %}
-{%     if item.redistribute is defined %}
-{%       for redist in item.redistribute %}
- redistribute {{ redist }}
-{%       endfor %}
-{%     endif %}
 {%     if item.network_advertisements is defined %}
-{%       for adv in item.network_advertisements %}
+{%         for adv in item.network_advertisements %}
  network {{ adv }}
-{%       endfor %}
-{%     endif %}
+{%         endfor %}
+{%       endif %}
 {%     for nbr in item.neighbors %}
  neighbor {{ nbr.neighbor }} remote-as {{ nbr.remote_as }}
+{%       if nbr.description is defined %}
+ neighbor {{ nbr.neighbor }} description "{{ nbr.description }}"
+{%       endif %}
  neighbor {{ nbr.neighbor }} next-hop-self
  neighbor {{ nbr.neighbor }} soft-reconfiguration inbound
+{%       if nbr.prefix_lists is defined %}
+{%         for pl in nbr.prefix_lists %}
+ neighbor {{ nbr.neighbor }} capability orf prefix-list {{ pl.orf }}
+{%           if pl.orf|lower == "send" or pl.orf|lower == "both" %}
+ neighbor {{ nbr.neighbor }} prefix-list {{ pl.name }} {{ pl.direction }}
+{%           endif %}
+{%         endfor %}
+{%       endif %}
 {%     endfor %}
 {%   endif %}
 {% endif %}
