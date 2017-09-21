@@ -2,7 +2,7 @@
 - name: config_interfaces | Configuring Loopback Interfaces
   template:
     src: "etc/network/interfaces.d/int.cfg.j2"
-    dest: "/etc/network/interfaces.d/{{ item.int }}.cfg"
+    dest: "/etc/network/interfaces.d/{{ item.int|replace(':', '_') }}.cfg"
   register: "loopback_interfaces_configured"
   with_items: '{{ quagga_interfaces_lo }}'
   when: >
